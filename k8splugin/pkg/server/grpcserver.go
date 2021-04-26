@@ -103,11 +103,13 @@ func (s *ServerGRPC) Listen() (err error) {
 	)
 
 	// Listen announces on the network address
+	//KANAG: use better formatting like fmt utils
 	listener, err = net.Listen("tcp", s.address+":"+s.port)
 	if err != nil {
 		log.Error("failed to listen on specified port")
 		return err
 	}
+	//KANAG: MOve this log to line #136 to log once everything ready to start GRPC instead !
 	log.Info("Server started listening on configured port")
 
 	if !s.serverConfig.Sslnotenabled {
@@ -1048,7 +1050,7 @@ func (s *ServerGRPC) DeletePackage(ctx context.Context,
 		s.displayResponseMsg(ctx, util.DeletePackage, util.FailedToDelAppPkg)
 		return resp, nil
 	}
-	
+
 	resp = &lcmservice.DeletePackageResponse{
 		Status: util.Success,
 	}
@@ -1071,9 +1073,9 @@ func (s *ServerGRPC) deletePackage(appPkgPath string) error {
 		return errors.New(util.FailedToDelAppPkg)
 	}
 	defer tenantDir.Close()
-	
+
 	_, err = tenantDir.Readdir(1)
-	
+
 	if err == io.EOF {
 		err := os.Remove(tenantPath)
 		if err != nil {
@@ -1243,4 +1245,3 @@ func (c *ServerGRPC) getAppPackageRecord(hostIp, appPkgId, tenantId string) (*mo
 	}
 	return appPkgRecord, nil
 }
-

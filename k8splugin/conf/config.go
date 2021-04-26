@@ -16,6 +16,7 @@
 
 package conf
 
+//KANAG: Move the ServerCOnfigurations under Configurations as there is only one field in this type
 // Configurations exported
 type Configurations struct {
 	Server ServerConfigurations
@@ -23,6 +24,8 @@ type Configurations struct {
 
 // ServerConfigurations exported
 type ServerConfigurations struct {
+//KANAG: Strictly follow Naming notations 	for all fields
+//KANAG: Should this be array to hold multiple ciphers
 	Sslciphers    string
 	Servername    string
 	Sslnotenabled bool
@@ -31,5 +34,6 @@ type ServerConfigurations struct {
 	Serverport    string
 	Httpsaddr     string
 	DbAdapter     string
+//KANAG: is this to be bool 
 	DbSslMode     string
 }

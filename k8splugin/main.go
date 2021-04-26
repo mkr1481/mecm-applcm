@@ -26,6 +26,7 @@ import (
 	"k8splugin/util"
 )
 
+//KANAG: Make it as prog parameter (argument)
 const (
 	configPath = "/usr/app/conf"
 )
@@ -43,11 +44,13 @@ func main() {
 	// Create GRPC server
 	serverConfig := server.ServerGRPCConfig{Address: config.Server.Httpsaddr, Port: config.Server.Serverport,
 		ServerConfig: &config.Server}
+//KANAG: throw error from below method call, instead of doing force exiting there, also check for retured error
 	grpcServer := server.NewServerGRPC(serverConfig)
 
 	// Start listening
 	err = grpcServer.Listen()
 	if err != nil {
+		//KANAG: log the error 
 		log.Errorf("Exiting system...")
 		return
 	}

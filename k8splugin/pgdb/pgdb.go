@@ -30,6 +30,7 @@ import (
 )
 
 // Variables are required for db connections
+//KANAG: pls make it as configurable item and use it here
 var (
 	DB_SSL_ROOT_CER = "ssl/ca.crt"
 )

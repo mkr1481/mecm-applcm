@@ -78,6 +78,9 @@ type Label struct {
 	Selector string
 }
 
+//KANAG: use better namings: both PodDescribeInfo and PodDescInfo mean the same
+//KANAG: until the code is read completely. one option could be with xxxList vs xxx 
+//KANAG: same applicable above
 // Pod information
 type PodDescribeInfo struct {
 	PodDescInfo []PodDescInfo `json:"pods"`

@@ -26,9 +26,12 @@ import (
 // Get client based on deploy type
 func GetClient(deployType string, hostIp string) (client ClientIntf, err error) {
 	switch deployType {
+	//KANAG: use it as CONST refernce from config or util and try the same across project
 	case "helm":
 		hc, err := NewHelmClient(hostIp)
 		if os.IsNotExist(err) {
+			//KANAG: Move this to message budle and refer it instead of repeating the
+			//KANAG: same error muptiple times
 			log.Error("Kubeconfig corresponding to given Edge can't be found.")
 			return nil, errors.New("kubeconfig corresponding to given edge cannot be found")
 		}
@@ -37,4 +40,3 @@ func GetClient(deployType string, hostIp string) (client ClientIntf, err error) 
 		return nil, errors.New("no client is found")
 	}
 }
-

@@ -22,4 +22,5 @@ server:
   serverport: 8095
   httpsaddr:
   dbAdapter: "pgDb"
+#KANAG: By default enable the ssl mode from security point of view  
   dbSslMode: "disable"

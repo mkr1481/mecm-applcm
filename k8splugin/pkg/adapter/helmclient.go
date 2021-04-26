@@ -22,6 +22,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/ghodss/yaml"
+	//KANAG: why imported twice ?
 	corev1 "k8s.io/api/core/v1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/client-go/rest"
@@ -94,6 +95,7 @@ func NewHelmClient(hostIP string) (*HelmClient, error) {
 	// Kubeconfig file will be picked based on host IP and will be check for existence
 	exists, err := fileExists(kubeconfigPath + hostIP)
 	if exists {
+		//KANAG: always its right practise to check the connection to k8s before returning the client
 		return &HelmClient{HostIP: hostIP, Kubeconfig: kubeconfigPath + hostIP}, nil
 	} else {
 		log.Error("No file exist with name")
@@ -102,6 +104,7 @@ func NewHelmClient(hostIP string) (*HelmClient, error) {
 }
 
 // Gets deployment artifact
+//KANAG: this method does not be part of HelmClient as it do't operator its vars
 func (c *HelmClient) getDeploymentArtifact(dir string, ext string) (string, error) {
 	d, err := os.Open(dir)
 	if err != nil {
@@ -275,7 +278,7 @@ func (hc *HelmClient) Query(relName string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	
+
 	labelSelector := getLabelSelector(manifest)
 
 	appInfo, response, err := getResourcesBySelector(labelSelector, clientset, kubeConfig)
@@ -319,6 +322,8 @@ func (hc *HelmClient) WorkloadEvents(relName string) (string, error) {
 	return string(podDescInfoJson), nil
 }
 
+//KANAG: All kubernetes related util functions cound be made under separate type and its
+//KANAG: member var could be with clientset
 func updatePodDescInfo(podDesc models.PodDescribeInfo, clientset *kubernetes.Clientset,
 	label models.Label) (models.PodDescribeInfo, error) {
 	options := metav1.ListOptions{
@@ -545,6 +550,7 @@ func getPodMetrics(config *rest.Config, podName string) (podMetrics *v1beta1.Pod
 
 // Get total cpu disk and memory metrics
 func getTotalCpuDiskMemory(clientset *kubernetes.Clientset) (string, string, string, error) {
+	//these metrics are better to be in numeric with Int
 	var totalDiskUsage string
 	var totalMemUsage string
 	var totalCpuUsage string
@@ -565,6 +571,7 @@ func getTotalCpuDiskMemory(clientset *kubernetes.Clientset) (string, string, str
 		}
 		return totalCpuUsage, totalMemUsage, totalDiskUsage, err
 	}
+
 	return "", "", "", err
 }
 
@@ -572,6 +579,7 @@ func getTotalCpuDiskMemory(clientset *kubernetes.Clientset) (string, string, str
 func splitManifestYaml(data []byte) (manifest []Manifest, err error) {
 	manifestBuf := []Manifest{}
 
+  //KANAG: double check if this works perfectly across windows and linux
 	yamlSeparator := "\n---"
 	yamlString := string(data)
 
