@@ -36,6 +36,7 @@ var (
 	jwtPublicKey = os.Getenv("JWT_PUBLIC_KEY")
 )
 
+//KANAG: Change the constant with CAPTIAL LETTER and improves the readability and maintability of code.
 const (
 	minPasswordSize = 8
 	maxPasswordSize = 16
@@ -155,6 +156,7 @@ func ValidateDbParams(dbPwd string) (bool, error) {
 }
 
 // Clear byte array from memory
+//KANAG: i think pointing to nill will clear the memory
 func ClearByteArray(data []byte) {
 	for i := 0; i < len(data); i++ {
 		data[i] = 0
@@ -163,6 +165,7 @@ func ClearByteArray(data []byte) {
 
 // Validate access token
 func ValidateAccessToken(accessToken string, allowedRoles []string) error {
+	//KANAG: as this method returns error in all checks below, better to return error here instaed of nil
 	if accessToken == "" {
 		return nil
 	}
@@ -179,6 +182,7 @@ func ValidateAccessToken(accessToken string, allowedRoles []string) error {
 		}
 	} else if er, ok := err.(*jwt.ValidationError); ok {
 		if er.Errors&jwt.ValidationErrorMalformed != 0 {
+			//KANAG: Move to error  and in below conditions as well
 			log.Info("Invalid token")
 			return errors.New(InvalidToken)
 		} else if er.Errors&(jwt.ValidationErrorExpired|jwt.ValidationErrorNotValidYet) != 0 {
@@ -189,10 +193,12 @@ func ValidateAccessToken(accessToken string, allowedRoles []string) error {
 			return errors.New(err.Error())
 		}
 	} else {
+		//KANAG: Its always important to return the error with details.
 		log.Info("Couldn't handle this token: ", err)
 		return errors.New(err.Error())
 	}
 
+//KANAG: change to debug level
 	log.Info("Token validated successfully")
 	return nil
 }
@@ -458,3 +464,6 @@ func RandomSecretName(n int) string {
 	}
 	return string(s)
 }
+//KANAG: This module is having mixed features. so strongly recommend to Group the related functioanlities as
+//KANAG: seprate type construct specifically like Config, TLS, Token  and add those corresponding methods to the respective types.
+//KANAG: There is already config module, so better move config related to feature to that module

@@ -23,12 +23,14 @@ import (
 )
 
 // Init Db adapter
+//KANAG: set the return var names at return values for Database and error
 func GetDbAdapter(serverConfigs *conf.ServerConfigurations) (Database, error) {
 	switch serverConfigs.DbAdapter {
 	case "pgDb":
 		db := &PgDb{}
 		err := db.InitDatabase(serverConfigs.DbSslMode)
 		if err != nil {
+//KANAG: Better to log the error before exiting
 			os.Exit(1)
 		}
 		return db, nil

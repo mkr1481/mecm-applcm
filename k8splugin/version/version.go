@@ -17,5 +17,6 @@
 package version
 
 var (
+//KANAG: Make it configurable or read it from the go module version
 	Version = "0.0.1"
 )

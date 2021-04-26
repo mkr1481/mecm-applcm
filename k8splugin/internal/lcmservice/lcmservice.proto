@@ -170,6 +170,8 @@ message DeletePackageResponse {
   string status = 1;
 }
 
+//KANAG: As there are almost same kind of response (with status or response field) is return across different
+//KANAG: services methods, only one common Response message would be sufficient instead of specific resonse.
 service AppLCM {
   rpc instantiate (InstantiateRequest) returns (InstantiateResponse) {}
   rpc terminate (TerminateRequest) returns (TerminateResponse) {}

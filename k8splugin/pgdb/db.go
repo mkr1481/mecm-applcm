@@ -18,8 +18,10 @@ package pgdb
 
 // Database API's
 type Database interface {
+	//KANAG: change to bool instead and set return var name as err
 	InitDatabase(dbSslMode string) error
 	InsertOrUpdateData(data interface{}, cols ...string) (err error)
+	//KANAG: its better to callout the 2nd param used for data id in below methods
 	ReadData(data interface{}, cols ...string) (err error)
 	DeleteData(data interface{}, cols ...string) (err error)
 }

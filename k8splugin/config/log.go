@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
+//KANAG: pls move this to log folder name to improve maintability and readability
 // Beego log related configurations
 package config
 
@@ -24,6 +24,7 @@ import (
 )
 
 func init() {
+//KANAG: Make it configuratble
 	fileName := "/usr/app/log/k8splugin.log"
 	file, err := os.OpenFile(fileName, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0640)
 	if err == nil {
@@ -33,6 +34,7 @@ func init() {
 			return
 		}
 		ioWriter := &lumberjack.Logger{
+	//KANAG: Make them configurable
 			Filename:   fileName,
 			MaxSize:    20,   // megabytes
 			MaxBackups: 50,   // max archived files
@@ -43,5 +45,6 @@ func init() {
 	} else {
 		logrus.Warn("Failed to log to file, using default stderr")
 	}
+	//KANAG: Make them configurable
 	logrus.SetLevel(logrus.InfoLevel)
 }

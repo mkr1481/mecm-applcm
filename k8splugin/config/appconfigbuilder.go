@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+//KANAG: IMHO, this module manily provides method for updating CSAR with authorised
+//KANAG: so its better to name the folder name accordingly. otherwise its confusing
+
 package config
 
 import (
@@ -48,8 +51,9 @@ func NewBuildAppAuthConfig(appInsId string, ak string, sk string) (appAuthCfg Ap
 }
 
 // extract the tar.gz file
+//KANAG: Its good practice to extract to a preconfigured temp folder instead on current folder
 func (_ *AppAuthConfigBuilder) extractTarFile(gzipStream io.Reader) (string, error) {
-
+//KANAG: Reader stream should be closed.
 	uncompressedStream, err := gzip.NewReader(gzipStream)
 	if err != nil {
 		log.Error("failed to read the file")
@@ -73,6 +77,7 @@ func processTarFile(uncompressedStream *gzip.Reader) (string, error) {
 	var totalWrote int64
 	fileCount := 0
 
+//KANAG: close the reader stream
 	tarReader := tar.NewReader(uncompressedStream)
 	for true {
 		header, err := tarReader.Next()
